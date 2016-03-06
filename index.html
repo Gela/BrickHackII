@@ -14,7 +14,7 @@
 var isEqual_bool = "";
 
 // to be populated
-var faceIds_array = ['3cc4e50c-e162-4470-a982-5a6870d8d637', '61bfd621-1ac6-4564-b739-1e5b08ac2558', 'e7651192-885e-497e-8d6b-1671d3470c5d', 'c6125a53-848e-41b7-b9d3-12234a821039'];
+var faceIds_array = ['3cc4e50c-e162-4470-a982-5a6870d8d637', '61bfd621-1ac6-4564-b739-1e5b08ac2558', 'e7651192-885e-497e-8d6b-1671d3470c5d', 'c6125a53-848e-41b7-b9d3-12234a821039', '723285a7-9646-4cc1-b3c0-98da714cdb74', 'bc482485-edb0-4cc9-94af-f5b289b4ea0d'];
 
 //another TC uri: http://a5.files.biography.com/image/upload/c_fit,cs_srgb,dpr_1.0,h_1200,q_80,w_1200/MTE5NDg0MDU0OTM2NTg1NzQz.jpg
 //instead of hardcoding img link, pass it here
@@ -73,6 +73,14 @@ function isEqual(id1, inc) {
         if(data.isIdentical == true) {
             console.log("isIdentical");
             // After detection passes do stuff in detectComplete()
+            document.getElementById('is_verified').innerHTML = "Verified. Redirecting to dashboard...";
+            var delay=2000; //1 seconds
+
+            setTimeout(function(){
+                window.location.href = "..\\flat-admin-bootstrap-templates-master\\index.html";
+            }, delay); 
+
+
             detectComplete();
         } 
         else {
@@ -103,6 +111,22 @@ function isEqual(id1, inc) {
         }
  }
 
+function saveImage(img_data) {
+    console.log("saveImg");
+
+    var req = $.ajax({
+        url: "http://localhost/test.php",
+        type: "POST",
+        data: {uploadFile: img_data}
+    });
+
+    req.done(function(data) {
+    console.log(data);
+
+    });
+    //detectFace(url);
+}
+
 // Code to handle taking the snapshot and displaying it locally -->
 var img_link = "";
     function take_snapshot() {
@@ -112,12 +136,9 @@ Webcam.snap( function(data_uri) {
             //console.log(data_uri);
             var image = new Image();
             image.src = data_uri;
-            detectFace(data_uri);
+            saveImage(data_uri);
     } );
-
 }
-
-//detectFace(url);
 
 </script>
 
@@ -129,7 +150,7 @@ Webcam.snap( function(data_uri) {
             <br />
             <br />
             <br />
-            <br />
+            <p id="is_verified">Waiting to be verified...</p>
             <input type=button value="Take Snapshot" onClick="take_snapshot()">
     </form>
 </div>
