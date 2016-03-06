@@ -3,20 +3,117 @@
 <head>
     <title>Facial Recognition and Authentication</title>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <link rel="icon" href="favicon.png" type="image/x-icon" />
+    <style>
+body {
+    background: url('http://i.imgur.com/Eor57Ae.jpg') no-repeat fixed center center;
+    background-size: cover;
+    font-family: Montserrat;
+}
+
+.logo {
+    width: 213px;
+    height: 36px;
+    background: url('') no-repeat;
+    margin: 30px auto;
+    margin-top: 200px;
+}
+
+.login-block {
+    width: 320px;
+    height: 440px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 5px;
+    border-top: 5px solid #ff656c;
+    margin: 0 auto;
+}
+
+.login-block h1 {
+    text-align: center;
+    color: #000;
+    font-size: 18px;
+    text-transform: uppercase;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.login-block input {
+    width: 100%;
+    height: 42px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    font-size: 14px;
+    font-family: Montserrat;
+    padding: 0 20px 0 50px;
+    outline: none;
+}
+
+.login-block input#username {
+    background: #fff url('http://i.imgur.com/u0XmBmv.png') 20px top no-repeat;
+    background-size: 16px 80px;
+}
+
+.login-block input#username:focus {
+    background: #fff url('http://i.imgur.com/u0XmBmv.png') 20px bottom no-repeat;
+    background-size: 16px 80px;
+}
+
+.login-block input#password {
+    background: #fff url('http://i.imgur.com/Qf83FTt.png') 20px top no-repeat;
+    background-size: 16px 80px;
+}
+
+.login-block input#password:focus {
+    background: #fff url('http://i.imgur.com/Qf83FTt.png') 20px bottom no-repeat;
+    background-size: 16px 80px;
+}
+
+.login-block input:active, .login-block input:focus {
+    border: 1px solid #ff656c;
+}
+
+.login-block button {
+    width: 100%;
+    height: 40px;
+    background: #ff656c;
+    box-sizing: border-box;
+    border-radius: 5px;
+    border: 1px solid #e15960;
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-family: Montserrat;
+    outline: none;
+    cursor: pointer;
+
+}
+
+.login-block button:hover {
+    background: #ff7b81;
+}
+
+#results {
+    color: white;
+}
+
+</style>
 </head>
 <body>
 
 <script type="text/javascript">
 
-var id ="";
 var isEqual_bool = "";
 
 // to be populated
-var faceIds_array = ['3cc4e50c-e162-4470-a982-5a6870d8d637', '61bfd621-1ac6-4564-b739-1e5b08ac2558'];
-var faceId1 = '3cc4e50c-e162-4470-a982-5a6870d8d637';
-var faceId2 = '61bfd621-1ac6-4564-b739-1e5b08ac2558';
+var faceIds_array = ['3cc4e50c-e162-4470-a982-5a6870d8d637', '61bfd621-1ac6-4564-b739-1e5b08ac2558', 'e7651192-885e-497e-8d6b-1671d3470c5d', 'c6125a53-848e-41b7-b9d3-12234a821039'];
 
-var url = "http://pixel.nymag.com/imgs/daily/intelligencer/2015/08/10/10-donald-trump-debate.w750.h560.2x.jpg";
+//another TC uri: http://a5.files.biography.com/image/upload/c_fit,cs_srgb,dpr_1.0,h_1200,q_80,w_1200/MTE5NDg0MDU0OTM2NTg1NzQz.jpg
+//instead of hardcoding img link, pass it here
+var url = "http://a57.foxnews.com/global.fncstatic.com/static/managed/img/Entertainment/876/493/tom-cruise-playboy-interview-660.jpg?ve=1&tl=1";
 
 function detectFace(url) {
    
@@ -40,7 +137,6 @@ function detectFace(url) {
         data: '{"url":"'+url+'"}',
     })
     .done(function(data) {
-        console.log('first request completed');
         console.log(faceIds_array);
         id = data[0].faceId; 
         isEqual(id, 0);
@@ -73,17 +169,18 @@ function isEqual(id1, inc) {
     })
     .done(function(data) {
         if(data.isIdentical == true) {
+            console.log("isIdentical");
             // After detection passes do stuff in detectComplete()
             detectComplete();
-        } else {
+        } 
+        else {
+            console.log("Not isIdentical, go to next");
             if(inc < faceIds_array.length - 1){
                 return isEqual(id1, ++inc);
             } else {
                 return false;
             }
         }
-
-        console.log(verified);
     })
     .fail(function() {
         alert("error");
@@ -107,7 +204,62 @@ function isEqual(id1, inc) {
 
 
 detectFace(url);
-// isEqual(faceId1, faceIds_array);
+
+
+</script>
+
+<div class="logo"></div>
+<div class="login-block">
+    <h1>Login</h1>
+    <form onsubmit="clickedVerify()">
+        <div id="my_camera"></div>
+        <!--        
+        <input type="text" value="" placeholder="Username" id="username" />
+        <input type="password" value="" placeholder="Password" id="password" />
+        -->
+        <!-- A button for taking snaps -->
+            <br />
+            <input type=button value="Take Snapshot" onClick="take_snapshot()">
+
+        <button id="verify">Verify</button>
+    </form>
+</div>
+    <script type="text/javascript" src="webcam.js"></script>
+    <!-- Configure a few settings and attach camera -->
+    <script language="JavaScript">
+        Webcam.set({
+            width: 320,
+            height: 240,
+            image_format: 'jpeg',
+            jpeg_quality: 90
+        });
+        Webcam.attach( '#my_camera' );
+    </script>
+    
+    
+    <!-- Code to handle taking the snapshot and displaying it locally -->
+    <script language="JavaScript">
+    var img_link = "";
+        function take_snapshot() {
+            console.log("Clicked!!");
+            // take snapshot and get image data
+    Webcam.snap( function(data_uri) {
+            document.getElementById('my_camera').innerHTML = '<img src="'+data_uri+'"/>';
+                console.log(data_uri);
+                var image = new Image();
+                image.src = data_uri;
+                console.log(image.src);
+                document.body.appendChild(image);
+        } );
+
+            }
+    </script>
+
+
+
+<script>
+
+//document.getElementById("verify").addEventListener("click", detectFace);
 
 </script>
 </body>
