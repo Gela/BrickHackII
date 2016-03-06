@@ -17,7 +17,7 @@ var faceIds_array = ['3cc4e50c-e162-4470-a982-5a6870d8d637', '61bfd621-1ac6-4564
 
 //another TC uri: http://a5.files.biography.com/image/upload/c_fit,cs_srgb,dpr_1.0,h_1200,q_80,w_1200/MTE5NDg0MDU0OTM2NTg1NzQz.jpg
 //instead of hardcoding img link, pass it here
-var url = "http://a57.foxnews.com/global.fncstatic.com/static/managed/img/Entertainment/876/493/tom-cruise-playboy-interview-660.jpg?ve=1&tl=1";
+var url = "http://a57.foxnews.com/global.fncstatic.com/static/managed/img/Entertainment/876/493/tom-cruise-playboy-interview-660.jpg";
 
 function detectFace(url) {
    
@@ -46,7 +46,7 @@ function detectFace(url) {
         isEqual(id, 0);
     })
     .fail(function() {
-        alert("error");
+        alert("detectFace error");
     });
  };
 
@@ -87,7 +87,7 @@ function isEqual(id1, inc) {
         }
     })
     .fail(function() {
-        alert("error");
+        alert("isEqual error");
     });
 };
 
@@ -107,7 +107,7 @@ function isEqual(id1, inc) {
 
 
 
-detectFace(url);
+//detectFace(url);
 
 
 </script>
@@ -119,13 +119,11 @@ detectFace(url);
         <div id="my_camera"></div>
         <!--        
         <input type="text" value="" placeholder="Username" id="username" />
-        <input type="password" value="" placeholder="Password" id="password" />
         -->
         <!-- A button for taking snaps -->
             <br />
             <input type=button value="Take Snapshot" onClick="take_snapshot()">
-
-        <button id="verify">Verify</button>
+            <input type="button" id="verify" value="Verify" onClick="detectFace()">
     </form>
 </div>
     <script type="text/javascript" src="webcam.js"></script>
@@ -145,15 +143,13 @@ detectFace(url);
     <script language="JavaScript">
     var img_link = "";
         function take_snapshot() {
-            console.log("Clicked!!");
             // take snapshot and get image data
     Webcam.snap( function(data_uri) {
             document.getElementById('my_camera').innerHTML = '<img src="'+data_uri+'"/>';
-                console.log(data_uri);
+                //console.log(data_uri);
                 var image = new Image();
                 image.src = data_uri;
                 console.log(image.src);
-                document.body.appendChild(image);
         } );
 
             }
