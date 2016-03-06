@@ -224,9 +224,7 @@ detectFace(url);
         <button id="verify">Verify</button>
     </form>
 </div>
-
     <script type="text/javascript" src="webcam.js"></script>
-    <div id="results">Your captured image will appear here...</div>
     <!-- Configure a few settings and attach camera -->
     <script language="JavaScript">
         Webcam.set({
@@ -241,14 +239,17 @@ detectFace(url);
     
     <!-- Code to handle taking the snapshot and displaying it locally -->
     <script language="JavaScript">
-    var img_link = "Hi";
+    var img_link = "";
         function take_snapshot() {
             console.log("Clicked!!");
             // take snapshot and get image data
     Webcam.snap( function(data_uri) {
-            document.getElementById('results').innerHTML = '<img src="'+data_uri+'"/>';
-                //console.log(data_uri);
-                //img_link = data_uri;
+            document.getElementById('my_camera').innerHTML = '<img src="'+data_uri+'"/>';
+                console.log(data_uri);
+                var image = new Image();
+                image.src = data_uri;
+                console.log(image.src);
+                document.body.appendChild(image);
         } );
 
             }
@@ -257,13 +258,9 @@ detectFace(url);
 
 
 <script>
-/*function clickedVerify() {
-    alert("The form was submitted");
-}*/
 
-document.getElementById("verify").addEventListener("click", detectFace);
-function clickedVerify() {
-}
+//document.getElementById("verify").addEventListener("click", detectFace);
+
 </script>
 </body>
 </html>
