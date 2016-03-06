@@ -96,6 +96,10 @@ body {
     background: #ff7b81;
 }
 
+#results {
+    color: white;
+}
+
 </style>
 </head>
 <body>
@@ -222,7 +226,7 @@ detectFace(url);
 </div>
 
     <script type="text/javascript" src="webcam.js"></script>
-    
+    <div id="results">Your captured image will appear here...</div>
     <!-- Configure a few settings and attach camera -->
     <script language="JavaScript">
         Webcam.set({
@@ -242,8 +246,11 @@ detectFace(url);
             console.log("Clicked!!");
             // take snapshot and get image data
     Webcam.snap( function(data_uri) {
-            document.getElementById('my_result').innerHTML = '<img src="'+data_uri+'"/>';
+            document.getElementById('results').innerHTML = '<img src="'+data_uri+'"/>';
+                //console.log(data_uri);
+                //img_link = data_uri;
         } );
+
             }
     </script>
 
