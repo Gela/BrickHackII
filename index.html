@@ -8,15 +8,14 @@
 
 <script type="text/javascript">
 
-var id ="";
 var isEqual_bool = "";
 
 // to be populated
-var faceIds_array = ['3cc4e50c-e162-4470-a982-5a6870d8d637', '61bfd621-1ac6-4564-b739-1e5b08ac2558'];
-var faceId1 = '3cc4e50c-e162-4470-a982-5a6870d8d637';
-var faceId2 = '61bfd621-1ac6-4564-b739-1e5b08ac2558';
+var faceIds_array = ['3cc4e50c-e162-4470-a982-5a6870d8d637', '61bfd621-1ac6-4564-b739-1e5b08ac2558', 'e7651192-885e-497e-8d6b-1671d3470c5d', 'c6125a53-848e-41b7-b9d3-12234a821039'];
 
-var url = "http://pixel.nymag.com/imgs/daily/intelligencer/2015/08/10/10-donald-trump-debate.w750.h560.2x.jpg";
+//another TC uri: http://a5.files.biography.com/image/upload/c_fit,cs_srgb,dpr_1.0,h_1200,q_80,w_1200/MTE5NDg0MDU0OTM2NTg1NzQz.jpg
+//instead of hardcoding img link, pass it here
+var url = "http://a57.foxnews.com/global.fncstatic.com/static/managed/img/Entertainment/876/493/tom-cruise-playboy-interview-660.jpg?ve=1&tl=1";
 
 function detectFace(url) {
    
@@ -40,7 +39,6 @@ function detectFace(url) {
         data: '{"url":"'+url+'"}',
     })
     .done(function(data) {
-        console.log('first request completed');
         console.log(faceIds_array);
         id = data[0].faceId; 
         isEqual(id, 0);
@@ -73,9 +71,12 @@ function isEqual(id1, inc) {
     })
     .done(function(data) {
         if(data.isIdentical == true) {
+            console.log("isIdentical");
             // After detection passes do stuff in detectComplete()
             detectComplete();
-        } else {
+        } 
+        else {
+            console.log("Not isIdentical, go to next");
             if(inc < faceIds_array.length - 1){
                 return isEqual(id1, ++inc);
             } else {
@@ -107,7 +108,7 @@ function isEqual(id1, inc) {
 
 
 detectFace(url);
-// isEqual(faceId1, faceIds_array);
+// isEqual(id, faceIds_array);
 
 </script>
 </body>
