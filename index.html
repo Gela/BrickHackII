@@ -109,7 +109,6 @@ function isEqual(id1, inc) {
 
 //detectFace(url);
 
-
 </script>
 
 <div class="logo"></div>
@@ -122,8 +121,13 @@ function isEqual(id1, inc) {
         -->
         <!-- A button for taking snaps -->
             <br />
+            <br />
+            <br />
+            <br />
             <input type=button value="Take Snapshot" onClick="take_snapshot()">
-            <input type="button" id="verify" value="Verify" onClick="detectFace()">
+            <!--
+            <input type="button" id="verify" value="Verify" onClick="">
+            -->
     </form>
 </div>
     <script type="text/javascript" src="webcam.js"></script>
@@ -149,7 +153,8 @@ function isEqual(id1, inc) {
                 //console.log(data_uri);
                 var image = new Image();
                 image.src = data_uri;
-                console.log(image.src);
+                //console.log(image.src);
+                detectFace(data_uri);
         } );
 
             }
